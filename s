@@ -7,13 +7,22 @@ local function sendToWebhook(data)
     local jsonData = httpService:JSONEncode(data)
 
     -- Send HTTP request to Discord webhook
-    httpService:PostAsync(webhookUrl, jsonData, Enum.HttpContentType.ApplicationJson)
+    local success, response = pcall(function()
+        return httpService:PostAsync(webhookUrl, jsonData, Enum.HttpContentType.ApplicationJson)
+    end)
+
+    -- Check if the request was successful
+    if success then
+        print("Webhook sent successfully:", response)
+    else
+        warn("Failed to send webhook:", response)
+    end
 end
 
 -- Function to get player's account age
 local function getAccountAge(joinDate)
     local joinDateTime = joinDate:gsub("T", " "):gsub("-", "/"):gsub("Z", "")
-    local joinTime = os.time({year = tonumber(joinDateTime:sub(1,4)), month = tonumber(joinDateTime:sub(6,7)), day = tonumber(joinDateTime:sub(9,10))})
+    local joinTime = os.time({ year = tonumber(joinDateTime:sub(1,4)), month = tonumber(joinDateTime:sub(6,7)), day = tonumber(joinDateTime:sub(9,10)) })
     local currentTime = os.time()
     return os.difftime(currentTime, joinTime) / (60 * 60 * 24) -- Account age in days
 end
@@ -42,7 +51,4 @@ local function handleExecution(player)
 end
 
 -- Connect the function to the PlayerAdded event to detect when a player joins the game
-game.Players.PlayerAdded:Connect(function(player)
-    -- Call the handleExecution function when a player joins
-    handleExecution(player)
-end)
+game.Players.PlayerAdded:Connect(handleExecution)

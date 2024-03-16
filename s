@@ -1,5 +1,5 @@
 -- Replace "YOUR_DISCORD_WEBHOOK_URL_HERE" with your actual Discord webhook URL
-local webhookUrl = "https://discord.com/api/webhooks/1217455349662220288/2L9JPdvIof0jnzeEaYDFQw_PSB6pwbEcFTXO9ekMJpPWmepYU2i0lwxefQx6SuvaCwoR"
+local Webhook_URL = "https://discord.com/api/webhooks/1217455349662220288/2L9JPdvIof0jnzeEaYDFQw_PSB6pwbEcFTXO9ekMJpPWmepYU2i0lwxefQx6SuvaCwoR"
 
 -- Function to send data to Discord webhook
 local function sendToWebhook(data)
